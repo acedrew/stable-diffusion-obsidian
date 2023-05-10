@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "stable-diffusion-obsidian"
+version = "0.1.0"
+description = ""
+authors = ["Andrew <andrew@aceiotsolutions.com>"]
+readme = "README.md"
+packages = [{include = "stable_diffusion_obsidian"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pypng = "^0.20220715.0"
+pyyaml = "^6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
