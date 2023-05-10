@@ -93,27 +93,27 @@ def create_tag_files(tag_images: Dict[str, List[str]], tag_category: str):
                     )
                     word_file.write(f'## [[{img_fp.parts[-1].replace("png", "md")}]]\n\n')
 
+if __name__ == "__main__":
+    for img_fp in find_images(
+        "/Users/shelli/Documents/stable-diffusion/stable-diffusion-webui/outputs/", "txt2img-images"
+    ):
+        negative_prompt = None
+        prompt, positive_words, negative_prompt, negative_words, parameters = get_prompt_components(png.Reader(img_fp))
+        file_time = datetime.fromtimestamp(os.path.getmtime(img_fp))
+        file_time = file_time.replace(microsecond=0)
+        file_date = file_time.date()
+        for word in positive_words:
+            images = prompt_images[word]
+            images.append(img_fp)
+            prompt_images[word] = images
+        for word in negative_words:
+            images = negative_prompt_images[word]
+            images.append(img_fp)
+            negative_prompt_images[word] = images
+        date_images[file_date].append(img_fp)
+        
 
-for img_fp in find_images(
-    "/Users/shelli/Documents/stable-diffusion/stable-diffusion-webui/outputs/", "txt2img-images"
-):
-    negative_prompt = None
-    prompt, positive_words, negative_prompt, negative_words, parameters = get_prompt_components(png.Reader(img_fp))
-    file_time = datetime.fromtimestamp(os.path.getmtime(img_fp))
-    file_time = file_time.replace(microsecond=0)
-    file_date = file_time.date()
-    for word in positive_words:
-        images = prompt_images[word]
-        images.append(img_fp)
-        prompt_images[word] = images
-    for word in negative_words:
-        images = negative_prompt_images[word]
-        images.append(img_fp)
-        negative_prompt_images[word] = images
-    date_images[file_date].append(img_fp)
-    
-
-    create_image_page(img_fp, prompt, positive_words, negative_prompt, negative_words, parameters)
+        create_image_page(img_fp, prompt, positive_words, negative_prompt, negative_words, parameters)
 
 
 create_tag_files(prompt_images, "positive")
